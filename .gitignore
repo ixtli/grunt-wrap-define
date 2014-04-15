@@ -1,3 +1,6 @@
+.DS_Store
+*.pyc
+*.swp
 node_modules
 npm-debug.log
 tmp
