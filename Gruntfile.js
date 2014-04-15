@@ -12,16 +12,6 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    jshint: {
-      all: [
-        'Gruntfile.js',
-        'tasks/*.js',
-        '<%= nodeunit.tests %>',
-      ],
-      options: {
-        jshintrc: '.jshintrc',
-      },
-    },
 
     // Before generating any new files, remove any previously-created files.
     clean: {
@@ -29,29 +19,26 @@ module.exports = function(grunt) {
     },
 
     // Configuration to be run (and then tested).
-    wrap_define: {
-      default_options: {
-        options: {
-        },
-        files: {
-          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123'],
-        },
+    wrapDefine: {
+      options: {
+        dependencies: [
+          'jquery',
+          {
+            name: 'foo',
+            extern: 'bar'
+          }
+        ]
       },
-      custom_options: {
-        options: {
-          separator: ': ',
-          punctuation: ' !!!',
-        },
-        files: {
-          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123'],
-        },
-      },
+      test: {
+        expand: true,
+        cwd: 'test/input',
+        src: ['*.js'],
+        dest: 'test/output'
+      }
     },
 
     // Unit tests.
-    nodeunit: {
-      tests: ['test/*_test.js'],
-    },
+    simplemocha: { test: 'test/test.js' }
 
   });
 
@@ -59,15 +46,11 @@ module.exports = function(grunt) {
   grunt.loadTasks('tasks');
 
   // These plugins provide necessary tasks.
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-nodeunit');
+  grunt.loadNpmTasks("grunt-simple-mocha");
+  grunt.loadNpmTasks("grunt-contrib-clean");
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'wrap_define', 'nodeunit']);
-
-  // By default, lint and run all tests.
-  grunt.registerTask('default', ['jshint', 'test']);
+  grunt.registerTask('test', ['clean', 'wrapDefine', 'simplemocha', 'clean']);
 
 };
