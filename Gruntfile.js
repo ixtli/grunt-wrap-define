@@ -15,7 +15,7 @@ module.exports = function(grunt) {
 
     // Before generating any new files, remove any previously-created files.
     clean: {
-      tests: ['tmp'],
+      test: 'test/output/*'
     },
 
     // Configuration to be run (and then tested).
@@ -31,14 +31,16 @@ module.exports = function(grunt) {
       },
       test: {
         expand: true,
-        cwd: 'test/input',
+        cwd: 'test/input/',
         src: ['*.js'],
-        dest: 'test/output'
+        dest: 'test/output/'
       }
     },
 
     // Unit tests.
-    simplemocha: { test: 'test/test.js' }
+    simplemocha: {
+      test: 'test/test.js'
+    }
 
   });
 

@@ -19,7 +19,11 @@ module.exports = function(grunt)
 	grunt.registerMultiTask('wrapDefine', description, function()
 	{
 		// Merge task-specific and/or target-specific options with these defaults.
-		var dependencies = this.options.dependencies;
+		var options = this.options({
+
+		});
+
+		var dependencies = options.dependencies;
 
 		if (!dependencies)
 		{
@@ -29,7 +33,7 @@ module.exports = function(grunt)
 
 		var preamble = 'define([';
 		var interstice = '], function(';
-		var afterward = ') {\n';
+		var afterward = ') {\n\n';
 		var fileEnding = '\n});\n';
 		var quote = '\'';
 		var typeOfString = typeof 'foo';
@@ -38,25 +42,25 @@ module.exports = function(grunt)
 		var name, extern;
 		for (var i = 0; i < count; i++)
 		{
-			if (typeof deps[i] === typeOfString)
+			if (typeof dependencies[i] === typeOfString)
 			{
-				name = extern = deps[i];
+				name = extern = dependencies[i];
 			} else {
-				name = deps[i].name;
-				extern = deps[i].extern;
+				name = dependencies[i].name;
+				extern = dependencies[i].extern;
 			}
 
-			preamble = premable + quote + name + quote;
+			preamble = preamble + quote + name + quote;
 			interstice = interstice + quote + extern + quote;
 
 			if (i < count - 1)
 			{
-				premable += ',';
+				preamble += ',';
 				interstice += ',';
 			}
 		}
 
-		var fileOpening = premable + interstice + afterward;
+		var fileOpening = preamble + interstice + afterward;
 
 		// Iterate over all specified file groups.
 		this.files.forEach(function(f) {
@@ -74,7 +78,7 @@ module.exports = function(grunt)
 				return grunt.file.read(filepath);
 			}).join(grunt.util.normalizelf(options.separator));
 
-			// Handle options.
+			// Wrap.
 			src = fileOpening + src + fileEnding;
 
 			// Write the destination file.
