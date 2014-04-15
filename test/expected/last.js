@@ -1,4 +1,5 @@
 define(['jquery', 'foo'], function(jquery, bar) {
+
 "use strict";
 
 var pending = { then: function () {} };

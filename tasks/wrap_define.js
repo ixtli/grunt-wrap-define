@@ -34,7 +34,7 @@ module.exports = function(grunt)
 		var preamble = 'define([';
 		var interstice = '], function(';
 		var afterward = ') {\n\n';
-		var fileEnding = '\n});\n';
+		var fileEnding = '\n\n});\n';
 		var quote = '\'';
 		var typeOfString = typeof 'foo';
 
@@ -51,12 +51,12 @@ module.exports = function(grunt)
 			}
 
 			preamble = preamble + quote + name + quote;
-			interstice = interstice + quote + extern + quote;
+			interstice = interstice + extern;
 
 			if (i < count - 1)
 			{
-				preamble += ',';
-				interstice += ',';
+				preamble += ', ';
+				interstice += ', ';
 			}
 		}
 
@@ -76,7 +76,7 @@ module.exports = function(grunt)
 			}).map(function(filepath) {
 				// Read file source.
 				return grunt.file.read(filepath);
-			}).join(grunt.util.normalizelf(options.separator));
+			});
 
 			// Wrap.
 			src = fileOpening + src + fileEnding;
