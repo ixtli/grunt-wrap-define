@@ -1,7 +1,7 @@
 {
   "name": "grunt-wrap-define",
   "description": "Wrap javascript in anonymous defines that require a named module mapped to a variable.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "homepage": "https://github.com/ixtli/grunt-wrap-define",
   "author": {
     "name": "Chris Galardi",
